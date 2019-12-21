@@ -12,7 +12,6 @@ import java.io.IOException;
 public class GithudProvider {
     public String getAccessToken(AccessTokenDTO accessTokenDTO){
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
-
         OkHttpClient client = new OkHttpClient();
 
         RequestBody body = RequestBody.create(mediaType,JSON.toJSONString(accessTokenDTO));
@@ -22,6 +21,7 @@ public class GithudProvider {
                 .build();
         try (Response response = client.newCall(request).execute()) {
             String string =response.body().string();
+            //System.out.println(string);
             String token = string.split("&")[0].split("=")[1];
             return token;
         } catch (IOException e) {
@@ -39,7 +39,7 @@ public class GithudProvider {
         try {
             Response response = client.newCall(request).execute();
             String string =response.body().string();
-            GithubUser githubUser=JSON.parseObject(string, GithubUser.class);
+            GithubUser githubUser = JSON.parseObject(string, GithubUser.class);
             return githubUser;
         } catch (IOException e) {
             e.printStackTrace();
